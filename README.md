@@ -1,2 +1,4 @@
 # airflow-dbt-snowflake
-Airflow integration with dbt on Snowflake
+Custom Airflow operators for dbt on Snowflake.
+
+Based on `airflow-dbt` package: https://github.com/gocardless/airflow-dbt/

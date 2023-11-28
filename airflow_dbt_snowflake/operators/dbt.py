@@ -215,7 +215,7 @@ class DbtBaseOperator(BaseOperator):
 
 class DbtRunOperator(DbtBaseOperator):
     """
-    Main airflow operator to run dbt with our
+    Main airflow operator to run dbt with a
     custom logic for incremental tables that
     need full-refresh
     """
