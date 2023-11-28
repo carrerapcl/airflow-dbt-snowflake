@@ -7,7 +7,7 @@ from airflow.models import BaseOperator, Variable
 from airflow.providers.snowflake.hooks.snowflake import SnowflakeHook
 from airflow.utils.decorators import apply_defaults
 
-from hooks.dbt import DbtCliHook
+from airflow_dbt_snowflake.hooks.dbt_hook import DbtCliHook
 
 
 class DbtBaseOperator(BaseOperator):
