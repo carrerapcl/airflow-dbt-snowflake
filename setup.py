@@ -54,7 +54,10 @@ setup(
     name='airflow_dbt_snowflake',
     version=about['__version__'],
     packages=find_packages(exclude=['tests']),
-    install_requires=['apache-airflow >= 1.10.3'],
+    install_requires=[
+        'apache-airflow >= 1.10.3',
+        'apache-airflow-providers-snowflake==5.1.1'
+    ],
     author='carrerapcl',
     author_email='pablocarrera96@gmail.com',
     description='Custom Airflow operators for dbt on Snowflake',
