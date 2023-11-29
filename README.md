@@ -21,6 +21,8 @@
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 
+<br>
+
 ## 📍 Overview
 
 This project is a helpful integration of custom [dbt](https://github.com/dbt-labs/dbt-core) operators for Apache Airflow that works with Snowflake data warehouse.
@@ -29,8 +31,60 @@ Its custom hook and operator bring useful features suited for a dbt project runn
 
 It essentially acts as a bridge between Airflow, DBT, and Snowflake, streamlining data management tasks.
 
+```mermaid
+graph LR
+
+    BaseHook["BaseHook"] -.->|inherited by| DbtCliHook["DBT CLI Hook"]
+    BaseOperator["BaseOperator"] -.->|inherited by| DbtOperator["DBT Operator"]
+    DbtCliHook -.->|used by| DbtOperator
+    DbtOperator -.->|can be imported into| OtherAirflowProjects["Other Airflow Projects"]
+    DbtOperator -.->|interacts with| DbtSnowflake["dbt <--> Snowflake"]
+    OtherAirflowProjects -.-> DbtSnowflake
+    
+    subgraph "Airflow Public Interface"
+        BaseHook
+        BaseOperator
+    end
+
+    subgraph "airflow-dbt-snowflake"
+        DbtCliHook
+        DbtOperator
+    end
+
+    style BaseHook fill:#f9f,stroke:#333,stroke-width:2px
+    style BaseOperator fill:#f9f,stroke:#333,stroke-width:2px
+    style DbtCliHook fill:#bbf,stroke:#333,stroke-width:2px
+    style DbtOperator fill:#bbf,stroke:#333,stroke-width:2px
+    style DbtSnowflake fill:#ccf,stroke:#333,stroke-width:2px
+    style OtherAirflowProjects fill:#ccf,stroke:#333,stroke-width:2px
+```
+
+### Main features
+
+The custom operator allows you to:
+- Use dbt CLI commands in your Airflow tasks.
+
+- Retry a failed dbt run with a `--full-refresh` flag automatically, if the failure was caused due to running an incremental model whose table schema has been modified. The user can also set an Airflow variable with a list of models to exclude from this behaviour.
+
+- Manually trigger a full refresh of any number of tasks (models) in the DAG.
+
+- Set up a specific warehouse name and/or a specific warehouse size when a DAG is triggered manually.
+
+Regarding the optional parameters (manual full refresh, warehouse size, etc), the user can perform those tasks by passing the following configuration when triggering the DAG (this can be done in the Airflow UI):
+```
+{
+    "full_refresh": true,
+    "models": ["model_name"],
+    "warehouse_name": "warehouse_name",
+    "warehouse_size": "warehouse_size"
+}
+```
+
+<br>
+
 `airflow-dbt-snowflake` is an evolution of `airflow-dbt` package (no longer mantained): https://github.com/gocardless/airflow-dbt/
 
+<br>
 
 ## 📂 Repository Structure
 
@@ -48,6 +102,8 @@ It essentially acts as a bridge between Airflow, DBT, and Snowflake, streamlinin
     ├── setup.py
 
 ```
+
+<br>
 
 ## ⚙️ Modules
 
@@ -84,12 +140,15 @@ It essentially acts as a bridge between Airflow, DBT, and Snowflake, streamlinin
 
 </details>
 
+<br>
+
 ## 🚀 Getting Started
 
 This project is useful as a dependency of any Airflow implementation that uses dbt as main source of tasks, and with dbt running on top of a Snowflake data warehouse.
 
 You can simply install this package as a requirement and use the extra functionalities of the dbt operator.
 
+<br>
 
 ## 🤝 Contributing
 
@@ -128,7 +187,7 @@ Once your PR is reviewed and approved, it will be merged into the main branch.
 
 </details>
 
----
+<br>
 
 ## 📄 License
 
